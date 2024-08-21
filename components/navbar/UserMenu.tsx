@@ -8,7 +8,9 @@ import {
 import { Menu } from 'lucide-react';
 import AvatarIcon from '../Avatar';
 import MenuItem from './MenuItem';
+import useRegisterModal from '@/hooks/useRegisterModal';
 export default function UserMenu() {
+	const registerModal = useRegisterModal();
 	return (
 		<div className='relative'>
 			<div className='flex flex-row items-center gap-3'>
@@ -33,7 +35,7 @@ export default function UserMenu() {
 					<DropdownMenuContent>
 						<MenuItem onClick={() => {}} label='Login' />
 						<DropdownMenuSeparator />
-						<MenuItem onClick={() => {}} label='SignUp' />
+						<MenuItem onClick={registerModal.onOpen} label='SignUp' />
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>

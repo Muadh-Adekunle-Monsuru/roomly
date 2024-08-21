@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import { Inter, Nunito } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import LoginModal from '@/components/modals/LoginModal';
+import getCurrentUser from '@/actions/getCurrentUser';
 
 const inter = Inter({ subsets: ['latin'] });
 const font = Nunito({
@@ -14,17 +16,19 @@ export const metadata: Metadata = {
 	description: 'Find Your Perfect Stay, Anywhere.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const currentUser = await getCurrentUser();
 	return (
 		<html lang='en'>
 			<body className={inter.className}>
 				<Toaster />
 				<RegisterModal />
-				<Navbard />
+				<LoginModal />
+				<Navbard currentUser={currentUser} />
 				{children}
 			</body>
 		</html>

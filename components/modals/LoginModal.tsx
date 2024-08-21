@@ -11,19 +11,21 @@ import Heading from '../Heading';
 import FormInput from '../FormInput';
 import { useToast } from '../ui/use-toast';
 import Button from '../Button';
+import useLoginModal from '@/hooks/useLoginModal';
 import { signIn } from 'next-auth/react';
-
-export default function RegisterModal() {
+import { useRouter } from 'next/navigation';
+export default function LoginModal() {
 	const { toast } = useToast();
 	const registerModal = useRegisterModal();
+	const loginModal = useLoginModal();
 	const [isLoading, setIsLoading] = useState(false);
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<FieldValues>({
 		defaultValues: {
-			name: '',
 			email: '',
 			password: '',
 		},
@@ -31,23 +33,27 @@ export default function RegisterModal() {
 
 	const onSubmit: SubmitHandler<FieldValues> = (data) => {
 		setIsLoading(true);
+		signIn('credentials', { ...data, redirect: false }).then((callback) => {
+			setIsLoading(false);
 
-		axios
-			.post('/api/register', data)
-			.then(() => {
-				registerModal.onClose();
-			})
-			.catch((error) =>
+			if (callback?.ok) {
 				toast({
-					title: 'Something Went Wrong.',
-				})
-			)
-			.finally(() => setIsLoading(false));
+					title: 'Logged in',
+				});
+				router.refresh();
+				loginModal.onClose();
+			}
+			if (callback?.error) {
+				toast({
+					title: `${callback.error}`,
+				});
+			}
+		});
 	};
 
 	const bodyContent = (
 		<div className='flex flex-col gap-4'>
-			<Heading title='Welcome To Roomly' subtitle='Create and account' />
+			<Heading title='Welcome back' subtitle='Login to your account' />
 			<FormInput
 				id='email'
 				label='Email'
@@ -56,14 +62,7 @@ export default function RegisterModal() {
 				errors={errors}
 				required
 			/>
-			<FormInput
-				id='name'
-				label='Name'
-				disabled={isLoading}
-				register={register}
-				errors={errors}
-				required
-			/>
+
 			<FormInput
 				id='password'
 				label='Password'
@@ -112,10 +111,10 @@ export default function RegisterModal() {
 	return (
 		<Modal
 			disabled={isLoading}
-			isOpen={registerModal.isOpen}
-			title='Register'
+			isOpen={loginModal.isOpen}
+			title='Login  '
 			actionLabel='Continue'
-			onClose={registerModal.onClose}
+			onClose={loginModal.onClose}
 			onSubmit={handleSubmit(onSubmit)}
 			body={bodyContent}
 			footer={footerContent}

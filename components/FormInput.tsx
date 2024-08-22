@@ -27,10 +27,7 @@ export default function FormInput({
 	return (
 		<div className='w-full relative'>
 			{formatPrice && (
-				<DollarSign
-					size={24}
-					className='text-neutral-700 absolute top-5 left-2'
-				/>
+				<DollarSign className='text-neutral-700 size-4 absolute top-1/2 left-2' />
 			)}
 			<Label
 				className={` 

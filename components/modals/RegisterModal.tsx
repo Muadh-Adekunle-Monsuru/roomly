@@ -12,10 +12,12 @@ import FormInput from '../FormInput';
 import { useToast } from '../ui/use-toast';
 import Button from '../Button';
 import { signIn } from 'next-auth/react';
+import useLoginModal from '@/hooks/useLoginModal';
 
 export default function RegisterModal() {
 	const { toast } = useToast();
 	const registerModal = useRegisterModal();
+	const loginModal = useLoginModal();
 	const [isLoading, setIsLoading] = useState(false);
 	const {
 		register,
@@ -44,6 +46,10 @@ export default function RegisterModal() {
 			)
 			.finally(() => setIsLoading(false));
 	};
+	const toggle = useCallback(() => {
+		registerModal.onClose();
+		loginModal.onOpen();
+	}, [loginModal, registerModal]);
 
 	const bodyContent = (
 		<div className='flex flex-col gap-4'>
@@ -100,7 +106,7 @@ export default function RegisterModal() {
 					<div>Already have an account?</div>
 					<div
 						className='text-neutral-800 cursor-pointer hover:underline'
-						onClick={registerModal.onClose}
+						onClick={toggle}
 					>
 						Log in
 					</div>

@@ -50,6 +50,10 @@ export default function LoginModal() {
 			}
 		});
 	};
+	const toggle = useCallback(() => {
+		loginModal.onClose();
+		registerModal.onOpen();
+	}, [loginModal, registerModal]);
 
 	const bodyContent = (
 		<div className='flex flex-col gap-4'>
@@ -96,12 +100,12 @@ export default function LoginModal() {
 			/>
 			<div className='text-neutral-500 text-center mt-4 font-light '>
 				<div className='flex flex-row items-center gap-2 justify-center'>
-					<div>Already have an account?</div>
+					<div>First time using Roomly?</div>
 					<div
 						className='text-neutral-800 cursor-pointer hover:underline'
-						onClick={registerModal.onClose}
+						onClick={toggle}
 					>
-						Log in
+						Create and account
 					</div>
 				</div>
 			</div>

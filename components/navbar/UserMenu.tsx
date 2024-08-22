@@ -8,11 +8,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import useLoginModal from '@/hooks/useLoginModal';
 import useRegisterModal from '@/hooks/useRegisterModal';
+import useRentModal from '@/hooks/useRentModal';
 import { Menu } from 'lucide-react';
 import { signOut } from 'next-auth/react';
+import { useCallback } from 'react';
 import AvatarIcon from '../Avatar';
-import MenuItem from './MenuItem';
 import { toast } from '../ui/use-toast';
+import MenuItem from './MenuItem';
 
 interface UserMenuProps {
 	currentUser?: SafeUser | null;
@@ -21,12 +23,20 @@ interface UserMenuProps {
 export default function UserMenu({ currentUser }: UserMenuProps) {
 	const registerModal = useRegisterModal();
 	const loginModal = useLoginModal();
+	const rentModal = useRentModal();
+	const onRent = useCallback(() => {
+		if (!currentUser) {
+			return loginModal.onOpen();
+		}
+		rentModal.onOpen();
+	}, [currentUser, loginModal, rentModal]);
+
 	return (
 		<div className='relative'>
 			<div className='flex flex-row items-center gap-3'>
 				<div
-					className='hidden md:block text-sm font-medium py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer'
-					onClick={() => {}}
+					className='hidden md:block text-sm font-medium py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer select-none'
+					onClick={onRent}
 				>
 					Rent Out Your Room
 				</div>
@@ -49,7 +59,7 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
 								<MenuItem onClick={() => {}} label='My favorites' />
 								<MenuItem onClick={() => {}} label='My reservations' />
 								<MenuItem onClick={() => {}} label='My properties' />
-								<MenuItem onClick={() => {}} label='Rent my home' />
+								<MenuItem onClick={rentModal.onOpen} label='Rent out my home' />
 								<DropdownMenuSeparator />
 								<MenuItem
 									onClick={() => {

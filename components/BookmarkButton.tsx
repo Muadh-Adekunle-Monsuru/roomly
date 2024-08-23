@@ -21,10 +21,10 @@ export default function BookmarkButton({
 	return (
 		<div
 			onClick={toggleFavorite}
-			className='relative hover:opacity-80 transition cursor-pointer'
+			className='hover:opacity-80 transition cursor-pointer'
 		>
 			<Bookmark
-				className={`size-10 md:size-5  absolute -top-[2px] -right-[2px] text-muted-foreground ${
+				className={`size-10 md:size-5  text-muted-foreground ${
 					hasFavorited && 'text-pink-700'
 				}`}
 			/>

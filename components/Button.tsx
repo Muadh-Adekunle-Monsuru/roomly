@@ -1,5 +1,5 @@
 'use client';
-import { IconNode, LucideIcon } from 'lucide-react';
+import { IconNode, Loader, LucideIcon } from 'lucide-react';
 import React, { ReactElement } from 'react';
 
 interface ButtonProps {
@@ -35,6 +35,7 @@ export default function Button({
 			{/* {Icon && <Icon />} */}
 			{Icon}
 			{label}
+			{disabled &&(<Loader className='animate-spin size-4'/>)}
 		</button>
 	);
 }

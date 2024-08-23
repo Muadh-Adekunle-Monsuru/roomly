@@ -1,5 +1,5 @@
 'use client';
-import { SafeListing, SafeUser } from '@/app/types';
+import { SafeListing, SafeReservation, SafeUser } from '@/app/types';
 import { Reservation } from '@prisma/client';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { categories } from './navbar/Categories';
@@ -25,7 +25,7 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-	reservations?: Reservation[];
+	reservations?: SafeReservation[];
 	listing: SafeListing & { user: SafeUser };
 	currentUser?: SafeUser | null;
 }
@@ -77,7 +77,7 @@ export default function ListingClient({
 				});
 				setDateRange(initialDateRange);
 				//redirect to /trips
-				router.refresh();
+				router.push('/trips');
 			})
 			.catch(() => {
 				toast({

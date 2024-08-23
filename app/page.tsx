@@ -2,13 +2,18 @@ import { Plus } from 'lucide-react';
 import './customstyles.css';
 import Container from '@/components/Container';
 import EmptyState from '@/components/EmptyState';
-import getListings from '@/actions/getListings';
+import getListings, { IListingParams } from '@/actions/getListings';
 import { Listing } from '@prisma/client';
 import ListingCard from '@/components/Listing';
 import getCurrentUser from '@/actions/getCurrentUser';
 import { SafeListing } from './types';
-export default async function Home() {
-	const listings = await getListings();
+
+interface HomeProps {
+	searchParams: IListingParams;
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+	const listings = await getListings(searchParams);
 	const currentUser = await getCurrentUser();
 
 	if (listings.length == 0) {

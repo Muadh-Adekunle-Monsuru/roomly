@@ -1,5 +1,5 @@
 'use client';
-import { SafeListing, SafeUser } from '@/app/types';
+import { SafeListing, SafeReservation, SafeUser } from '@/app/types';
 import useCountries from '@/hooks/useCountries';
 import { Listing, Reservation, User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
@@ -8,11 +8,13 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import BookmarkButton from './BookmarkButton';
 import Button from './Button';
+import { CircleX } from 'lucide-react';
+import CloseTooltip from './CloseTooltip';
 
 interface ListingCardProps {
 	data: SafeListing;
 	currentUser?: SafeUser | null;
-	reservation?: Reservation;
+	reservation?: SafeReservation;
 	onAction?: (val: string) => void;
 	disabled?: boolean;
 	actionLabel?: string;
@@ -32,7 +34,7 @@ export default function ListingCard({
 	const location = getByValue(data.locationValue);
 
 	const handleCancel = useCallback(
-		(event: React.MouseEvent<HTMLButtonElement>) => {
+		(event: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
 			event.stopPropagation();
 			if (disabled) {
 				return;
@@ -74,9 +76,14 @@ export default function ListingCard({
 						className='object-cover h-full w-full group-hover:scale-110 transition'
 						fill
 					/>
-					<div className='absolute top-3 right-3'>
+					<div className='absolute top-3 right-2 gap-4 w-10 flex flex-col items-center justify-end'>
 						{currentUser?.id && (
 							<BookmarkButton listingId={data.id} currentUser={currentUser} />
+						)}
+						{onAction && actionLabel && (
+							<div onClick={handleCancel} className=''>
+								<CloseTooltip actionLabel={actionLabel} />
+							</div>
 						)}
 					</div>
 				</div>
@@ -85,9 +92,11 @@ export default function ListingCard({
 						<div className='font-medium text-gray-700 text-sm '>
 							{reservationDate || data.category}
 						</div>
-						<div className='text-muted-foreground text-nowrap truncate '>
-							{location?.region}, {location?.label}
-						</div>
+						{!reservation && (
+							<div className='text-muted-foreground text-nowrap truncate '>
+								{location?.region}, {location?.label}
+							</div>
+						)}
 					</div>
 					<div className='font-semibold text-lg text-nowrap truncate'>
 						{data.title}
@@ -97,13 +106,14 @@ export default function ListingCard({
 						<div className='font-semibold text-nowrap truncate'>${price}</div>
 						{!reservation && <div className='font-light text-xs'>night</div>}
 					</div>
-					{onAction && actionLabel && (
+					{/* {onAction && actionLabel && (
 						<Button
 							disabled={disabled}
 							label={actionLabel}
 							onClick={handleCancel}
+							outline
 						/>
-					)}
+					)} */}
 				</div>
 			</div>
 		</div>

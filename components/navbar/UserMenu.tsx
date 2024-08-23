@@ -15,12 +15,14 @@ import { useCallback } from 'react';
 import AvatarIcon from '../Avatar';
 import { toast } from '../ui/use-toast';
 import MenuItem from './MenuItem';
+import { useRouter } from 'next/navigation';
 
 interface UserMenuProps {
 	currentUser?: SafeUser | null;
 }
 
 export default function UserMenu({ currentUser }: UserMenuProps) {
+	const router = useRouter();
 	const registerModal = useRegisterModal();
 	const loginModal = useLoginModal();
 	const rentModal = useRentModal();
@@ -55,10 +57,30 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
 					<DropdownMenuContent>
 						{currentUser ? (
 							<>
-								<MenuItem onClick={() => {}} label='My trips' />
-								<MenuItem onClick={() => {}} label='My favorites' />
-								<MenuItem onClick={() => {}} label='My reservations' />
-								<MenuItem onClick={() => {}} label='My properties' />
+								<MenuItem
+									onClick={() => {
+										router.push('/trips');
+									}}
+									label='My trips'
+								/>
+								<MenuItem
+									onClick={() => {
+										router.push('/favorites');
+									}}
+									label='My favorites'
+								/>
+								<MenuItem
+									onClick={() => {
+										router.push('/reservations');
+									}}
+									label='My reservations'
+								/>
+								<MenuItem
+									onClick={() => {
+										router.push('/properties');
+									}}
+									label='My properties'
+								/>
 								<MenuItem onClick={rentModal.onOpen} label='Rent out my home' />
 								<DropdownMenuSeparator />
 								<MenuItem

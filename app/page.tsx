@@ -23,6 +23,7 @@ export default async function Home({ searchParams }: HomeProps) {
 			</>
 		);
 	}
+
 	return (
 		<div className='h-full bg-white'>
 			<Container>

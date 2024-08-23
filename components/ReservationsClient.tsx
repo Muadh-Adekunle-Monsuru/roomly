@@ -12,7 +12,10 @@ interface Props {
 	reservations: SafeReservation[];
 	currentUser: SafeUser | null;
 }
-export default function ({ currentUser, reservations }: Props) {
+export default function ReservationsClient({
+	currentUser,
+	reservations,
+}: Props) {
 	const router = useRouter();
 	const [deletingId, setDeletingId] = useState('');
 

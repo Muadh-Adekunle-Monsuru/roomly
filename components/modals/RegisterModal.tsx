@@ -55,7 +55,7 @@ export default function RegisterModal() {
 
 	const bodyContent = (
 		<div className='flex flex-col gap-4'>
-			<Heading title='Welcome To Roomly' subtitle='Create and account' />
+			<Heading title='Welcome To Roomly' subtitle='Create an account' />
 			<FormInput
 				id='email'
 				label='Email'

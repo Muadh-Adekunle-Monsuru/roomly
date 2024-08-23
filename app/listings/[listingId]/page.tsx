@@ -8,6 +8,8 @@ import React from 'react';
 interface IParams {
 	listingId?: string;
 }
+
+export const dynamic = 'force-dynamic';
 export default async function ListingPage({ params }: { params: IParams }) {
 	const listing = await getListingsById(params);
 	const reservations = await getReservations(params);

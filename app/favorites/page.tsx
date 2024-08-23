@@ -6,6 +6,7 @@ import FavoritesClient from '@/components/FavoritesClient';
 import Heading from '@/components/Heading';
 import Container from '@/components/Container';
 
+export const dynamic = 'force-dynamic';
 export default async function page() {
 	const listings = await getFavoriteListings();
 	const currentUser = await getCurrentUser();

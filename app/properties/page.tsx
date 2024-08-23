@@ -6,6 +6,7 @@ import TripsClient from '@/components/TripsClient';
 import getListings from '@/actions/getListings';
 import PropertiesClient from '@/components/PropertiesClient';
 
+export const dynamic = 'force-dynamic';
 export default async function PropertiesPage() {
 	const currentUser = await getCurrentUser();
 

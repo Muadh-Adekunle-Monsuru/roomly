@@ -8,6 +8,8 @@ import ListingCard from '@/components/Listing';
 import getCurrentUser from '@/actions/getCurrentUser';
 import { SafeListing } from './types';
 
+export const dynamic = 'force-dynamic';
+
 interface HomeProps {
 	searchParams: IListingParams;
 }
